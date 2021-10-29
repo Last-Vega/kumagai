@@ -12,6 +12,7 @@ __pycache__/
 *.pth
 .history
 *.docx
+*.pdf
 
 # Distribution / packaging
 .Python
