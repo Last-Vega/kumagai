@@ -19,7 +19,7 @@ class VGAE(nn.Module):
 		self.logstd = self.gcn_logstddev(hidden)
 		gaussian_noise = torch.randn(X.size(0), args.hidden2_dim)
 		sampled_z = gaussian_noise*torch.exp(self.logstd) + self.mean
-		sampled_z = self.mean
+		# sampled_z = self.mean
 		self.z = sampled_z
 		return sampled_z
 
@@ -81,4 +81,26 @@ class GAE(nn.Module):
 		Z = self.encode(X)
 		A_pred = norm_distance_decode(Z, self.a, self.b)
 		return A_pred
-		
+
+
+class Bipartite_GAE(nn.Module):
+	def __init__(self, input_dims):
+		super(Bipartite_GAE,self).__init__()
+		self.l1 = torch.nn.Linear(input_dims, args.hidden1_dim)
+		self.l2 = torch.nn.Linear(args.hidden1_dim, args.hidden2_dim)
+		self.weight = glorot_init(args.hidden1_dim, args.hidden2_dim)
+
+	
+	def encoder_with_MLP(self, bi_networks):
+		h1 = self.l1(bi_networks)
+		h2 = torch.sigmoid(h1)
+		h3 = self.l2(h2)
+		mu = F.relu(self.weight*h3)
+		z = mu
+		self.z = z
+		return z
+
+	def forward(self, bi_networks):
+		Z = self.encoder_with_MLP(bi_networks)
+		bi_network_pred = norm_distance_decode(Z, a, b)
+		return bi_network_pred
