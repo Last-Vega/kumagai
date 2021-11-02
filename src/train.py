@@ -5,24 +5,44 @@ import os
 from util import prepare_adj_for_training, prepare_features_for_training, model_init
 
 from sample_graph import adj, features
+from sample_bipartite import bi_networks
 
 # Train on CPU (hide GPU) due to memory constraints
 os.environ['CUDA_VISIBLE_DEVICES'] = ""
 
 weight_tensor, adj_norm, norm, adj_label, adj_orig, test_edges, test_edges_false = prepare_adj_for_training(adj)
-
 features = prepare_features_for_training(features)
+graph_dim = features.shape[1]
 
-input_dim = features.shape[1]
+bi_weight_tensor, bi_adj_norm, bi_norm, bi_adj_label, bi_adj_orig, bi_test_edges, bi_test_edges_false = prepare_adj_for_training(bi_networks)
+bipartite_dim = bi_networks.shape[1]
 
-model, optimizer = model_init(adj_norm, input_dim)
+
+model, optimizer = model_init(adj_norm, graph_dim, bipartite_dim)
 
 for epoch in range(num_epoch):
-    A_pred = model(features)
+    A_pred, Bi_pred = model(features, bi_adj_norm)
     optimizer.zero_grad()
-    loss = log_lik = norm*F.binary_cross_entropy(A_pred.view(-1), adj_label.to_dense().view(-1), weight = weight_tensor)
-    
+    loss = norm*F.binary_cross_entropy(A_pred.view(-1), adj_label.to_dense().view(-1), weight = weight_tensor) + bi_norm*F.binary_cross_entropy(Bi_pred.view(-1), bi_adj_label.to_dense().view(-1), weight = bi_weight_tensor)
     loss.backward()
     optimizer.step()
+    print(loss)
 
-print(A_pred[3])
+
+# Latent variable of Company graph
+Z_c = model.Z_c.to('cpu').detach().numpy().copy().tolist()
+
+# Latent variable of Company-Patent Bipartite graph
+Z_p = model.Z_p.to('cpu').detach().numpy().copy().tolist()
+
+zc_x = [d[0] for d in Z_c]
+zc_y = [d[1] for d in Z_c]
+
+zp_x = [d[0] for d in Z_p]
+zp_y = [d[1] for d in Z_p]
+import matplotlib.pyplot as plt
+sc = plt.scatter(zc_x, zc_y, label='Prediction', color='red')
+
+sc2 = plt.scatter(zp_x, zp_y, label='Prediction', color='blue')
+
+plt.show()
