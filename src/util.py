@@ -8,9 +8,7 @@ import numpy as np
 from preprocessing import *
 
 from args import *
-from model import VGAE
-from model import GAE
-import pandas as pd
+from model import Recommendation
 
 
 def prepare_adj_for_training(adj):
@@ -56,7 +54,17 @@ def prepare_features_for_training(features):
     
     return features
 
-def model_init(adj_norm, input_dims):
-    model = GAE(adj_norm, input_dims)
+def model_init(adj_norm, graph_dim, bipartite_dim):
+    model = Recommendation(adj_norm, graph_dim, bipartite_dim)
     optimizer = Adam(model.parameters(), lr=learning_rate)
     return model, optimizer
+
+# def GAE_model_init(adj_norm, input_dims):
+#     model = GAE(adj_norm, input_dims)
+#     optimizer = Adam(model.parameters(), lr=learning_rate)
+#     return model, optimizer
+
+# def Bipartite_model_init(input_dims):
+#     model = Bipartite_GAE(input_dims)
+#     optimizer = Adam(model.parameters(), lr=learning_rate)
+#     return model, optimizer
