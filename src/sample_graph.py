@@ -2,11 +2,13 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.sparse import csr_matrix, lil_matrix
+
+import args
 #ノードの数
-n = 50
+n = args.num_company
 
 #辺ができる確率
-p = 0.05
+p = 0.1
 
 #乱数のシード値
 seed = 42
@@ -24,7 +26,7 @@ for edge in edges:
 
 adj = csr_matrix(adj)
 
-features = np.zeros((50, 50))
+features = np.zeros((n, n))
 count = 0
 for elm in features:
     elm[count] += 1
