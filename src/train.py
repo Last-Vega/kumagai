@@ -40,7 +40,7 @@ Z_c = model.Z_c.to('cpu').detach().numpy().copy().tolist()
 # Latent variable of Company-Patent Bipartite graph
 Z_p = model.Z_p.to('cpu').detach().numpy().copy().tolist()
 Z_p = Z_p[num_company:]
-print(Z_p)
+
 zc_x = [d[0] for d in Z_c]
 zc_y = [d[1] for d in Z_c]
 
