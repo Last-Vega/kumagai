@@ -2,11 +2,12 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.sparse import csr_matrix, lil_matrix
+import args
 
-n1 = 50
-n2 = 80
+n1 = args.num_company
+n2 = args.num_patent
 seed = 42
-p = 0.01
+p = 0.05
 g = nx.bipartite.generators.random_graph(n1, n2, p, seed)
 
 # edges = g.edges()
