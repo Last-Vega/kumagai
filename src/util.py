@@ -10,6 +10,13 @@ from preprocessing import *
 from args import *
 from model import Recommendation
 
+# 乱数シード固定（再現性の担保）
+def fix_seed(seed):
+    # pytorch
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
 
 def prepare_adj_for_training(adj):
     # Store original adjacency matrix (without diagonal entries) for later
