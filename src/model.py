@@ -29,8 +29,9 @@ class Recommendation(nn.Module):
 		super(Recommendation, self).__init__()
 		self.base_gcn = GraphConvSparse(graph_dim, args.hidden1_dim, adj)
 		self.gcn_mean = GraphConvSparse(args.hidden1_dim, args.hidden2_dim, adj, activation=lambda x:x)
-		self.l1 = torch.nn.Linear(bipartite_dim, args.hidden1_dim)
-		self.l2 = torch.nn.Linear(args.hidden1_dim, args.hidden2_dim)
+		self.gcn_logstddev = GraphConvSparse(args.hidden1_dim, args.hidden2_dim, adj, activation=lambda x:x)
+		self.l1 = nn.Linear(bipartite_dim, args.hidden1_dim)
+		self.l2 = nn.Linear(args.hidden1_dim, args.hidden2_dim)
 		self.weight = glorot_init(bipartite_dim, args.hidden2_dim)
 		self.a = Parameter(torch.FloatTensor(1))
 		self.b = Parameter(torch.FloatTensor(1))
@@ -39,7 +40,12 @@ class Recommendation(nn.Module):
 	
 	def encode(self, X):
 		hidden = self.base_gcn(X)
-		z = self.mean = self.gcn_mean(hidden)
+		self.mean = self.gcn_mean(hidden)
+		self.logstd = self.gcn_logstddev(hidden)
+		gaussian_noise = torch.randn(X.size(0), args.hidden2_dim)
+		sampled_z = gaussian_noise*torch.exp(self.logstd) + self.mean
+		# z = self.mean = self.gcn_mean(hidden)
+		z = sampled_z
 		self.Z_c = z
 		return z
 	
@@ -47,8 +53,11 @@ class Recommendation(nn.Module):
 		h1 = self.l1(bi_networks)
 		h2 = torch.sigmoid(h1)
 		h3 = self.l2(h2)
-		mu = F.relu(self.weight*h3)
-		z = mu
+		self.mu = F.relu(self.weight*h3)
+		self.siguma = torch.exp(self.mu)
+		gaussian_noise = torch.randn(bi_networks.size(0), args.hidden2_dim)
+		z = gaussian_noise*self.siguma + self.mu
+		# z = mu
 		self.Z_p = z
 		return z
 
@@ -65,7 +74,8 @@ def norm_distance_decode(Z, a, b):
 	z_dist = torch.cdist(Z, Z, p=2) # norm distance
 	x = 1/(z_dist + eps)
 	A_pred = torch.sigmoid((x/a)-b)
-
+	# x = torch.matmul(Z,Z.t())
+	# A_pred = torch.sigmoid(x)
 	return A_pred
 
 def bipartite_decode(Z_c, Z_p, a, b):
@@ -80,6 +90,8 @@ def bipartite_decode(Z_c, Z_p, a, b):
 	# torch.set_printoptions(edgeitems=1000)
 	x = 1/(z_dist + eps)
 	bi_network_pred = torch.sigmoid((x/a)-b)
+	# x = torch.matmul(Z_p, Z_c_.t())
+	# bi_network_pred = torch.sigmoid(x)
 	return bi_network_pred
 
 def glorot_init(input_dim, output_dim):
