@@ -47,14 +47,11 @@ zc_y = [d[1] for d in Z_c]
 zp_x = [d[0] for d in Z_p]
 zp_y = [d[1] for d in Z_p]
 import matplotlib.pyplot as plt
-sc = plt.scatter(zc_x, zc_y, label='Prediction', color='red')
-# num = list(range(0, graph_dim))
-# for i, label in enumerate(num):
-#     plt.annotate(label, (zc_x[i], zc_y[i]))
+fig, ax = plt.subplots(figsize=(8.0, 6.0))
 
-sc2 = plt.scatter(zp_x, zp_y, label='Prediction', color='blue')
-# num = list(range(0, bipartite_dim))
-# for i, label in enumerate(num):
-#     plt.annotate(label, (zp_x[i], zp_y[i]))
+sc = ax.scatter(zc_x, zc_y, label='Company', color='red')
+sc2 = ax.scatter(zp_x, zp_y, label='Term', color='blue')
+
+ax.legend(loc=0)
 
 plt.show()
