@@ -13,6 +13,9 @@ __pycache__/
 .history
 *.docx
 *.pdf
+*.png
+Untitled.ipynb
+*.pptx
 
 # Distribution / packaging
 .Python
