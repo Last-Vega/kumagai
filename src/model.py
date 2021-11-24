@@ -74,6 +74,8 @@ def norm_distance_decode(Z, a, b):
 	z_dist = torch.cdist(Z, Z, p=2) # norm distance
 	x = 1/(z_dist + eps)
 	A_pred = torch.sigmoid((x/a)-b)
+
+	## dot product
 	# x = torch.matmul(Z,Z.t())
 	# A_pred = torch.sigmoid(x)
 	return A_pred
@@ -90,8 +92,7 @@ def bipartite_decode(Z_c, Z_p, a, b):
 	# torch.set_printoptions(edgeitems=1000)
 	x = 1/(z_dist + eps)
 	bi_network_pred = torch.sigmoid((x/a)-b)
-	# x = torch.matmul(Z_p, Z_c_.t())
-	# bi_network_pred = torch.sigmoid(x)
+
 	return bi_network_pred
 
 def glorot_init(input_dim, output_dim):
