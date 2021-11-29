@@ -16,6 +16,7 @@ __pycache__/
 *.png
 Untitled.ipynb
 *.pptx
+*.json
 
 # Distribution / packaging
 .Python
