@@ -15,17 +15,19 @@ def makeCompanyRelation(patent_info:dict, json_data:dict, G:any, itr:str) -> Non
         comb = list(itertools.combinations(patent_info['createdBy'], 2))
         for elm in comb:
             G.add_edge(elm[0], elm[1])
+
     for company in patent_info['createdBy']:
+        print(itr)
         for i in range(len(json_data)):
-            i = str(i)
-            if i == itr:
+            if int(itr) > i:
                 continue
             else:
-                comp_company_list = json_data[i]['createdBy']
-                for comp_company in comp_company_list:
-                    if comp_company != company:
-                        G.add_edge(company, comp_company)
-        print('ok')
+                i = str(i)
+                if 'createdBy' in json_data[i].keys():
+                    comp_company_list = json_data[i]['createdBy']
+                    for comp_company in comp_company_list:
+                        if comp_company != company:
+                            G.add_edge(company, comp_company)
     return 
 
 def buildCompanyGraph(G:any, json_data:dict) -> any:
