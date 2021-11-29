@@ -1,4 +1,10 @@
-def create_node(G:any, json_data:dict) -> any:
+import json
+import networkx as nx
+import numpy as np
+import itertools
+from networkx.classes.graph import Graph
+
+def create_node(G:Graph, json_data:dict) -> Graph:
     company_list:list = []
     for itr in range(len(json_data)):
         itr = str(itr)
@@ -10,7 +16,7 @@ def create_node(G:any, json_data:dict) -> any:
 
     return G
 
-def makeCompanyRelation(patent_info:dict, json_data:dict, G:any, itr:str) -> None:
+def makeCompanyRelation(patent_info:dict, json_data:dict, G:Graph, itr:str) -> None:
     if len(patent_info['createdBy']) > 1:
         comb = list(itertools.combinations(patent_info['createdBy'], 2))
         for elm in comb:
@@ -30,7 +36,7 @@ def makeCompanyRelation(patent_info:dict, json_data:dict, G:any, itr:str) -> Non
                             G.add_edge(company, comp_company)
     return 
 
-def buildCompanyGraph(G:any, json_data:dict) -> any:
+def buildCompanyGraph(G:Graph, json_data:dict) -> Graph:
     for itr in range(len(json_data)):
         itr = str(itr)
         if 'createdBy' in json_data[itr].keys():
@@ -38,11 +44,6 @@ def buildCompanyGraph(G:any, json_data:dict) -> any:
     return G
 
 
-import json
-import networkx as nx
-import numpy as np
-from scipy.sparse import csr_matrix, lil_matrix
-import itertools
 
 # f_name = '../data/sample.json'
 f_name = '../data/patent_parsed.json'
@@ -50,8 +51,8 @@ f_name = '../data/patent_parsed.json'
 json_open = open(f_name, 'r')
 json_data = json.load(json_open)
     
-graph:any = nx.Graph()
-G:any = create_node(graph, json_data)
+graph:Graph = nx.Graph()
+G:Graph = create_node(graph, json_data)
 G = buildCompanyGraph(G, json_data)
 adj:np.ndarray = nx.to_numpy_array(G, dtype=int)
 print(adj)
@@ -63,9 +64,3 @@ with open('../vars/c_c.graph', 'wb') as bf:
 
 with open('../vars/c_cAdj.adj', 'wb') as bf2:
     pickle.dump(adj, bf2)
-# print(G.nodes())
-
-# with open('../vars/c_c.graph', 'rb') as rb:
-#   dumpedG = pickle.load(rb)
-
-# print(dumpedG.nodes())
