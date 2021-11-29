@@ -5,7 +5,7 @@ model = 'GAE'
 hidden1_dim = 4
 hidden2_dim = 2
 use_feature = True
-num_epoch = 800
+num_epoch = 10
 learning_rate = 0.01
 
 num_company = 80
