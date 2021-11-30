@@ -2,11 +2,16 @@
 # dataset = 'cora'
 model = 'GAE'
 
-hidden1_dim = 4
-hidden2_dim = 2
-use_feature = True
-num_epoch = 100
-learning_rate = 0.01
+hidden1_dim:int = 4
+hidden2_dim:int = 2
+use_feature:bool = True
+num_epoch:int = 100
+learning_rate:float = 0.01
 
-num_company = 80
-num_patent = 50
+# num_company = 80
+# num_patent = 50
+
+
+num_patent:int = 44564
+num_company:int = 4530
+num_term:int = 0
