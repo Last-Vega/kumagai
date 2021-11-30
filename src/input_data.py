@@ -25,8 +25,9 @@ def createFeatures(adj:csr_matrix) -> lil_matrix:
 
 f_name:str = '../vars/c_c.adj'
 adj:csr_matrix = company_adj(f_name)
-print(adj)
+# print(adj)
 features:lil_matrix = createFeatures(adj)
 
 f_name:str = '../vars/c_t.biadj'
 bi_adj:csr_matrix = company_term_biadj(f_name)
+# print(bi_adj)
