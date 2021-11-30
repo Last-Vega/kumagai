@@ -6,9 +6,7 @@ from scipy.sparse import csr_matrix, lil_matrix
 
 def company_adj(f_name:str) -> csr_matrix:
     with open(f_name, 'rb') as rb:
-        g:Graph = pickle.load(rb)
-    adj:np.ndarray = nx.to_numpy_array(g, dtype=int)
-    adj:csr_matrix = csr_matrix(adj)
+        adj:csr_matrix = pickle.load(rb)
     return adj
 
 def company_term_biadj(f_name:str) -> csr_matrix:
@@ -25,9 +23,9 @@ def createFeatures(adj:csr_matrix) -> lil_matrix:
     features = lil_matrix(features)
     return features
 
-f_name:str = '../vars/c_c.graph'
+f_name:str = '../vars/c_c.adj'
 adj:csr_matrix = company_adj(f_name)
-
+print(adj)
 features:lil_matrix = createFeatures(adj)
 
 f_name:str = '../vars/c_t.biadj'
