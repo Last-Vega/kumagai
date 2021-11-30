@@ -1,3 +1,5 @@
+from scipy.sparse.csr import csr_matrix
+from scipy.sparse.lil import lil_matrix
 import torch
 import torch.nn.functional as F
 from torch.optim import Adam
@@ -18,7 +20,7 @@ def fix_seed(seed):
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
-def prepare_adj_for_training(adj):
+def prepare_adj_for_training(adj:csr_matrix):
     # Store original adjacency matrix (without diagonal entries) for later
     adj_orig = adj
     adj_orig = adj_orig - sp.dia_matrix((adj_orig.diagonal()[np.newaxis, :], [0]), shape=adj_orig.shape)
@@ -51,7 +53,7 @@ def prepare_adj_for_training(adj):
     weight_tensor[weight_mask] = pos_weight
     return weight_tensor, adj_norm, norm, adj_label, adj_orig, test_edges, test_edges_false
 
-def prepare_features_for_training(features):
+def prepare_features_for_training(features:lil_matrix):
     features = sparse_to_tuple(features.tocoo())
     num_features = features[2][1]
     features_nonzero = features[1].shape[0]
@@ -65,13 +67,3 @@ def model_init(adj_norm, graph_dim, bipartite_dim):
     model = Recommendation(adj_norm, graph_dim, bipartite_dim)
     optimizer = Adam(model.parameters(), lr=learning_rate)
     return model, optimizer
-
-# def GAE_model_init(adj_norm, input_dims):
-#     model = GAE(adj_norm, input_dims)
-#     optimizer = Adam(model.parameters(), lr=learning_rate)
-#     return model, optimizer
-
-# def Bipartite_model_init(input_dims):
-#     model = Bipartite_GAE(input_dims)
-#     optimizer = Adam(model.parameters(), lr=learning_rate)
-#     return model, optimizer
