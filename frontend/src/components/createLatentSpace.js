@@ -4,30 +4,27 @@ import draggablePoints from 'highcharts/modules/draggable-points'
 
 More(Highcharts)
 draggablePoints(Highcharts)
-var tableData = {
-  title: '',
-  author: '',
-  conference: '',
-  year: ''
+var companyTableData = {
+  company: ''
 }
 
-var miscList = []
-
-var reMovedObj = {}
+var termTableData = {
+  term: ''
+}
 
 const chartOptions = {
   tooltip: {
     valueDecimals: 9
   },
   xAxis: {
-    min: -1,
-    max: 1,
+    // min: -1,
+    // max: 1,
     gridLineWidth: 1,
     tickPixelInterval: 25
   },
   yAxis: {
-    min: -1,
-    max: 1,
+    // min: -1,
+    // max: 1,
     tickPixelInterval: 50
   },
   legend: {
@@ -43,8 +40,8 @@ const chartOptions = {
   },
   series: [
     {
-      name: '動かす文献',
-      data: [[0, 0]],
+      name: 'Company',
+      data: [],
       dataLabal: [],
       type: 'scatter',
       animation: false,
@@ -56,25 +53,22 @@ const chartOptions = {
       point: {
         events: {
           mouseOver () {
-            tableData.title = ''
-            tableData.author = ''
-            tableData.conference = ''
-            tableData.year = ''
+            const point = this
+            const index = point.index
+            companyTableData.company = chartOptions.series[0].dataLabal[index]
           },
           drop: function (e) {
             const point = this
             const index = point.index
             if (e.newPoint.x !== undefined) {
               chartOptions.series[0].data[index] = [e.newPoint.x, e.newPoint.y]
-              miscList[index] = [e.newPoint.x, e.newPoint.y]
-              console.log(miscList)
             }
           }
         }
       }
     },
     {
-      name: '動かした文献',
+      name: 'Term',
       data: [],
       dataLabal: [],
       type: 'scatter',
@@ -90,21 +84,14 @@ const chartOptions = {
           mouseOver () {
             const point = this
             const index = point.index
-            tableData.title =
-              chartOptions.series[1].dataLabal[index][0].title
-            tableData.author =
-              chartOptions.series[1].dataLabal[index][0].author
-            tableData.conference =
-              chartOptions.series[1].dataLabal[index][0].conference
-            tableData.year = chartOptions.series[1].dataLabal[index][0].year
+            termTableData.term =
+              chartOptions.series[1].dataLabal[index]
           },
           drop: function (e) {
             const point = this
             const index = point.index
             if (e.newPoint.x !== undefined) {
-              console.log(e.newPoint.x)
               chartOptions.series[1].data[index] = [e.newPoint.x, e.newPoint.y]
-              reMovedObj[index] = [e.newPoint.x, e.newPoint.y]
             }
           }
         }
@@ -122,4 +109,4 @@ const chartOptions = {
   }
 }
 
-export { tableData, chartOptions, miscList, reMovedObj }
+export { companyTableData, termTableData, chartOptions }
