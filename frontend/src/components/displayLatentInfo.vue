@@ -1,15 +1,15 @@
 <template>
 <div>
-    <section class="charts">
-      <highcharts :options="options" ref="chart"></highcharts>
-    </section>
+  <section class="charts">
+    <highcharts :options="options" ref="chart"></highcharts>
+  </section>
   <v-container class="grey lighten-5">
     <v-row no-gutters>
         <v-col cols="12" sm="5">
           <v-simple-table>
             <template v-slot:default>
               <caption>
-                マウスがホバーした企業
+                ホバーした企業
               </caption>
               <thead>
                 <tr>
@@ -29,7 +29,7 @@
           <v-simple-table>
             <template v-slot:default>
               <caption>
-                マウスがホバーした単語
+                ホバーした単語
               </caption>
               <thead>
                 <tr>

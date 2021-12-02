@@ -84,8 +84,7 @@ const chartOptions = {
           mouseOver () {
             const point = this
             const index = point.index
-            termTableData.term =
-              chartOptions.series[1].dataLabal[index]
+            termTableData.term = chartOptions.series[1].dataLabal[index]
           },
           drop: function (e) {
             const point = this
