@@ -58,15 +58,15 @@ class Recommendation(nn.Module):
 		gaussian_noise = torch.randn(bi_networks.size(0), args.hidden2_dim)
 		z = gaussian_noise*self.siguma + self.mu
 		# z = mu
-		self.Z_p = z
+		self.Z_t = z
 		return z
 
 	def forward(self, X, bi_networks):
 		Z_c = self.encode(X)
 		A_pred = norm_distance_decode(Z_c, self.a, self.b)
 
-		Z_p = self.encoder_with_MLP(bi_networks)
-		bi_network_pred = bipartite_decode(Z_c, Z_p, self.a, self.b)
+		Z_t = self.encoder_with_MLP(bi_networks)
+		bi_network_pred = bipartite_decode(Z_c, Z_t, self.a, self.b)
 		return A_pred, bi_network_pred
 
 def norm_distance_decode(Z, a, b):
@@ -80,15 +80,15 @@ def norm_distance_decode(Z, a, b):
 	# A_pred = torch.sigmoid(x)
 	return A_pred
 
-def bipartite_decode(Z_c, Z_p, a, b):
+def bipartite_decode(Z_c, Z_t, a, b):
 	eps = 0.00001
-	shape = Z_p.shape
+	shape = Z_t.shape
 	Z_c_ = torch.zeros((shape[0], shape[1]))
 
 	for itr in range(len(Z_c)):
 		Z_c_[itr] = Z_c[itr]
 	
-	z_dist = torch.cdist(Z_c_, Z_p, p=2) # norm distance
+	z_dist = torch.cdist(Z_c_, Z_t, p=2) # norm distance
 	# torch.set_printoptions(edgeitems=1000)
 	x = 1/(z_dist + eps)
 	bi_network_pred = torch.sigmoid((x/a)-b)

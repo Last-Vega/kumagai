@@ -39,18 +39,18 @@ with open('../data/patent_parsed.json', 'r') as f:
 company_list = createRelationList(json_data, 'createdBy')
 term_list = createRelationList(json_data, 'term')
 
-# 行列の初期化
-P_C_Matrix:np.ndarray = np.zeros((num_patent, num_company))
-P_T_Matrix:np.ndarray = np.zeros((num_patent, num_term))
+# # 行列の初期化
+# P_C_Matrix:np.ndarray = np.zeros((num_patent, num_company))
+# P_T_Matrix:np.ndarray = np.zeros((num_patent, num_term))
 
 
-# company-company 隣接行列
-P_C_Matrix = createMtr(P_C_Matrix, 'createdBy', company_list, json_data)
-c_c_adj = createMetaBaseAdj(P_C_Matrix, P_C_Matrix)
-c_c_adj = csr_matrix(c_c_adj)
+# # company-company 隣接行列
+# P_C_Matrix = createMtr(P_C_Matrix, 'createdBy', company_list, json_data)
+# c_c_adj = createMetaBaseAdj(P_C_Matrix, P_C_Matrix)
+# c_c_adj = csr_matrix(c_c_adj)
 
-# company-term二部グラフ隣接行列
-P_T_Matrix = createMtr(P_T_Matrix, 'term', term_list, json_data)
-bi_adj = createMetaBaseAdj(P_C_Matrix, P_T_Matrix)
-bi_adj = csr_matrix(bi_adj)
-print(bi_adj)
+# # company-term二部グラフ隣接行列
+# P_T_Matrix = createMtr(P_T_Matrix, 'term', term_list, json_data)
+# bi_adj = createMetaBaseAdj(P_C_Matrix, P_T_Matrix)
+# bi_adj = csr_matrix(bi_adj)
+# print(bi_adj)
