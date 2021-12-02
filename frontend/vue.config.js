@@ -3,7 +3,7 @@ module.exports = {
   transpileDependencies: ['vuetify'],
   assetsDir: './',
   // publicPath: '/ex_design/'
-  // publicPath: process.env.NODE_ENV === 'production' ? '/ex_design/' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? './kumagaigumi' : '/',
   pages: {
     index: {
       entry: 'src/main.js',
