@@ -3,7 +3,7 @@
   <v-form>
     <v-row no-gutters>
       <v-col col="6">
-        <v-text-field v-model="query" class="queryFileds"></v-text-field>
+        <v-text-field v-model="query" placeholder="企業名は正式名称で入力してください" label="例)株式会社熊谷組" class="queryFileds"></v-text-field>
       </v-col>
       <v-col col="6">
         <v-btn v-on:click="submit">
