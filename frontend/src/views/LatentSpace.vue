@@ -18,8 +18,8 @@ import {
   termTableData,
   chartOptions
 } from '@/components/createLatentSpace'
-import companyInfo from '@/assets/latentC.json'
-import termInfo from '@/assets/latentT.json'
+import companyInfo from '@/assets/latentC1223.json'
+import termInfo from '@/assets/latentT1223.json'
 import ViewTabel from '@/components/viewTable'
 import ViewLatentSpace from '@/components/viewLatentInfo'
 export default {
