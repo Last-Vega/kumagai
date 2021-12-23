@@ -33,7 +33,6 @@
     </v-app-bar>
     <v-main>
       <router-view />
-      <displayLatentInfo />
     </v-main>
 
     <v-footer color="primary" dark app>
@@ -43,10 +42,10 @@
 </template>
 
 <script>
-import displayLatentInfo from '@/components/displayLatentInfo'
+// import displayLatentInfo from '@/components/displayLatentInfo'
 export default {
   components: {
-    displayLatentInfo
+    // displayLatentInfo
   },
   data () {
     return {

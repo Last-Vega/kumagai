@@ -6,25 +6,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/ito',
-    name: 'Ito',
-    component: LatentSpace
-  },
-  {
-    path: '/mori',
-    name: 'Mori',
-    component: LatentSpace
-  },
-  {
-    path: '/matsu',
-    name: 'Matsu',
-    component: LatentSpace
-  },
-  {
-    path: '/tutorial',
-    name: 'tutorial',
+    path: '/',
+    name: 'LatentSpace',
     component: LatentSpace
   }
+
 ]
 
 const router = new VueRouter({
