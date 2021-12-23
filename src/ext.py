@@ -13,17 +13,18 @@ for itr in range(len(json_data)):
     #         company_dict[company] = 1
     comp = json_data[itr]['createdBy']
     if '株式会社熊谷組' in comp:
-        for c in comp:
-            if c in company_dict:
-                company_dict[c] += 1
+        term = json_data[itr]['term']
+        for t in term:
+            if t in company_dict:
+                company_dict[t] += 1
             else:
-                company_dict[c] = 1
+                company_dict[t] = 1
 
 
 company_list = sorted(company_dict.items(), key=lambda x:x[1], reverse=True)
 company_dict.clear()
 company_dict.update(company_list)
 
-json_file = open('../data/relatedKumagai.json', 'w')
+json_file = open('../data/relatedKumagaiTerm.json', 'w')
  
 json.dump(company_dict, json_file, indent=2, ensure_ascii=False)

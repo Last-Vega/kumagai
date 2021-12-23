@@ -45,12 +45,12 @@ import re
 import regex
 import ast
 
-f_name = '../data/patent.json'
+f_name = '../data/patent1217.json'
 json_open = open(f_name, 'r')
 json_data = json.load(json_open)
 
 json_data = changeType(json_data)
 
-with open('../data/patent_parsed.json', 'w') as f:
+with open('../data/patent_parsed1217.json', 'w') as f:
     result = json.dump(json_data, f, indent=2, ensure_ascii=False)
 

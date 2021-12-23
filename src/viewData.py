@@ -1,7 +1,7 @@
 import pickle
 import numpy as np
-with open('../vars/c_cAdj.adj', 'rb') as rb:
+with open('../vars/annotate.ct', 'rb') as rb:
     adj = pickle.load(rb)
 
-print(adj)
-print(len(adj))
+# print(adj[14489])
+# # print(len(adj))

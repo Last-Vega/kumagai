@@ -33,12 +33,13 @@ def createMetaBaseAdj(m1:np.ndarray, m2:np.ndarray) -> np.ndarray:
     return meta_base_matrix
 
 
-with open('../data/patent_parsed.json', 'r') as f:
+with open('../data/patent_parsed1216.json', 'r') as f:
     json_data = json.load(f)
 
-company_list = createRelationList(json_data, 'createdBy')
+# company_list = createRelationList(json_data, 'createdBy')
 term_list = createRelationList(json_data, 'term')
-
+print(len(term_list))
+print(num_term)
 # # 行列の初期化
 # P_C_Matrix:np.ndarray = np.zeros((num_patent, num_company))
 # P_T_Matrix:np.ndarray = np.zeros((num_patent, num_term))

@@ -33,13 +33,6 @@ for epoch in range(num_epoch):
     optimizer.step()
     print(loss)
 
-
-# Latent variable of Company graph
-# Z_c = model.Z_c.to('cpu').detach().numpy().copy().tolist()
-
-# Latent variable of Company-Patent Bipartite graph
-# Z_t = model.Z_t.to('cpu').detach().numpy().copy().tolist()
-
 Z = model.Z_t.to('cpu').detach().numpy().copy().tolist()
 Z_c = Z[:num_company]
 Z_t = Z[num_company:]
@@ -49,56 +42,3 @@ with open('../vars/z.c', 'wb') as wb:
 
 with open('../vars/z.t', 'wb') as wb:
     pickle.dump(Z_t, wb)
-
-# zc_x = [d[0] for d in Z_c]
-# zc_y = [d[1] for d in Z_c]
-
-# zt_x = [d[0] for d in Z_t]
-# zt_y = [d[1] for d in Z_t]
-
-
-# import matplotlib.pyplot as plt
-# fig, ax = plt.subplots(figsize=(8.0, 6.0))
-
-# sc = ax.scatter(zc_x, zc_y, label='Company', color='red')
-# sc2 = ax.scatter(zt_x, zt_y, label='Term', color='blue')
-
-
-
-# ax.legend(loc=0)
-
-# fig, ax = plt.subplots(figsize=(8.0, 6.0))
-# cmap = plt.cm.RdYlGn
-
-# sc = ax.scatter(zc_x, zc_y, label='Company', color='red')
-# sc2 = ax.scatter(zt_x, zt_y, label='Term', color='blue')
-# annot = ax.annotate("", xy=(0,0), xytext=(5,5),textcoords="offset points",
-#                     bbox=dict(boxstyle="round", fc="w"),
-#                     arrowprops=dict(arrowstyle="->"))
-# annot.set_visible(False)
-
-
-# def update_annot(ind):
-#     i = ind["ind"][0]
-#     pos = sc.get_offsets()[i]
-#     annot.xy = pos
-#     text = annotate_list[i]
-#     annot.set_text(text, fontname='Meiryo')
-#     # annot.get_bbox_patch().set_facecolor(text)
-
-# def hover(event):
-#     vis = annot.get_visible()
-#     if event.inaxes == ax:
-#         cont, ind = sc.contains(event)
-#         if cont:
-#             update_annot(ind)
-#             annot.set_visible(True)
-#             fig.canvas.draw_idle()
-#         else:
-#             if vis:
-#                 annot.set_visible(False)
-#                 fig.canvas.draw_idle()
-
-# fig.canvas.mpl_connect("motion_notify_event", hover)
-
-# plt.show()

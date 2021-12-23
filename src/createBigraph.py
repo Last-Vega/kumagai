@@ -53,7 +53,7 @@ def buildBigraph(G:Graph, json_data:dict) -> Graph:
             makeBirelation(json_data[itr], json_data, G, itr)
     return G
 
-f_name:str = '../data/patent_parsed.json'
+f_name:str = '../data/patent_parsed1217.json'
 # f_name:str = '../data/sample.json'
 
 
@@ -70,10 +70,10 @@ B.add_nodes_from(G2.nodes(), bipartite=1)
 B = buildBigraph(B, json_data)
 bi_adj:csr_matrix = bipartite.matrix.biadjacency_matrix(B, G1.nodes(), G2.nodes())
 
-with open('../vars/c_t.bigraph', 'wb') as bf:
+with open('../vars/c_t1222.bigraph', 'wb') as bf:
     pickle.dump(B, bf)
 
-with open('../vars/c_t.biadj', 'wb') as bf2:
+with open('../vars/c_t1222.biadj', 'wb') as bf2:
     pickle.dump(bi_adj, bf2)
 
 # print(bi_adj)
