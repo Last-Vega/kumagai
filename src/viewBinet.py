@@ -4,50 +4,20 @@ import pickle
 import matplotlib.pyplot as plt
 from networkx.algorithms import bipartite
 
+with open('../vars/centralityTerm.degree', 'rb') as f1:
+    company_centrality = pickle.load(f1)
 
+with open('../vars/centralityCompany.degree', 'rb') as f2:
+    term_centrality = pickle.load(f2)
 
-# with open('../vars/c_t.biadj', 'rb') as f:
-#     adj = pickle.load(f)
+company_centrality = company_centrality.items()
+company_centrality = list(company_centrality)[:4530]
+company_centrality = sorted(company_centrality, key=lambda x: x[1], reverse=True)[:100]
+print(company_centrality)
 
-# adj = adj.toarray()
-# G = nx.from_numpy_matrix(adj)
-# print(nx.is_bipartite(G))
-# print(nx.betweenness_centrality(G))
+term_centrality = term_centrality.items()
+term_centrality = list(term_centrality)[:28093]
 
-# bi_centality = nx.betweenness_centrality(G)
-# bi_centality = sorted(bi_centality.items(), key=lambda x: x[1], reverse=True)[:50]
+term_centrality = sorted(term_centrality, key=lambda x: x[1], reverse=True)[:100]
+print(term_centrality)
 
-# print(bi_centality)
-
-# with open('../vars/c_t.bigraph', 'rb') as f:
-#     B = pickle.load(f)
-# # print(B)
-# bi_centality = nx.betweenness_centrality(B)
-# # bi_centality = sorted(bi_centality.items(), key=lambda x: x[1], reverse=True)[:50]
-
-# print(bi_centality)
-
-
-import networkx as nx
-from networkx.algorithms import bipartite
-
-speakers = ['Pink', 'Green']
-items = ['Knife', 'Rope']
-
-B = nx.Graph()
-
-B.add_nodes_from(items, bipartite = 0)
-B.add_nodes_from(speakers, bipartite = 1)
-
-B.add_edge('Pink', 'Knife', weight = 10)
-B.add_edge('Pink', 'Rope', weight = 4)
-B.add_edge('Green', 'Rope', weight = 2)
-B.add_edge('Green', 'Knife', weight = 7)
-
-bottom_nodes, top_nodes = bipartite.sets(B)
-print(bottom_nodes)
-print(top_nodes)
-print(nx.is_bipartite(B))
-print(bipartite.betweenness_centrality(B, bottom_nodes))
-print(nx.betweenness_centrality(B))
-# print(nx.betweenness_centrality(B, weight = 'weight'))
