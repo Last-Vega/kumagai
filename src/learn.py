@@ -4,7 +4,7 @@ from args import *
 import os
 from util import fix_seed, prepare_adj_for_training, prepare_features_for_training, model_init
 
-from input_data import adj, features, bi_adj, annotate_list
+from input_data import adj, features, bi_adj
 
 
 fix_seed(42)
@@ -34,8 +34,10 @@ for epoch in range(num_epoch):
     print(loss)
 
 Z = model.Z_t.to('cpu').detach().numpy().copy().tolist()
-Z_c = Z[:num_company]
-Z_t = Z[num_company:]
+# Z_c = Z[:num_company]
+# Z_t = Z[num_company:]
+Z_c = Z[:num_createdBy]
+Z_t = Z[num_createdBy:]
 import pickle
 with open('../vars/z.c', 'wb') as wb:
     pickle.dump(Z_c, wb)
